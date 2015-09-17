@@ -1,2 +1,4 @@
 useDynLib(nfd)
 export(nfd)
+export(functions)
+export(simulation)
