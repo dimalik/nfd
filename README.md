@@ -8,3 +8,13 @@ library(devtools)
 install_github("dimalik/nfd")
 library("nfd")
 ```
+# Using the package
+
+In order to get the NFD value between two discrete distributions you simply call:
+
+```R
+corpusA <- "this is a test sentence"
+corpusB <- "this is another test sentence"
+
+nfd(corpusA, corpusB)
+```
