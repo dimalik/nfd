@@ -1,3 +1,2 @@
 useDynLib(nfd)
-export(nfd)
-export(split.string)
+export(nfd, get.distribution.mode, split.string, create.frequency.distribution, get.samples)
