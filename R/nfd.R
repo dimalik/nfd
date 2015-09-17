@@ -32,7 +32,7 @@ print.nfd <- function(x, ...) {
 
 summary.nfd <- function(object, ...) {
   
-    row.names <- strsplit("F1.NTypes F2.NTypes F1.NTokens F2.NTokens NFD", " ")[[1]]
+    row.names <- unlist(strsplit("F1.NTypes F2.NTypes F1.NTokens F2.NTokens NFD", " "))
     values <- format(list(object$f1_length,
                           object$f2_length,
                           sum(object$f1),

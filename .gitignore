@@ -11,3 +11,10 @@
 # produced vignettes
 vignettes/*.html
 vignettes/*.pdf
+#*
+/R/#functions.R#
+/R/#simulation.R#
+/R/createFreqDist.R
+/R/functions.R~
+/R/nfd.R~
+/R/simulation.R~
