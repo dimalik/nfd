@@ -2,22 +2,18 @@
 ## authors: dimitrios alikaniotis (da352@cam.ac.uk)
 ##          christian bentz (cb696@cam.ac.uk)
 
-## TODO fix plotting
-## TODO put tests in NFD
-
 nfdSim <- function(f1, f2, f1_length, f2_length) {
-    ## nfd function takes two distributions
-    ## and calucalates their normalized freq
-    ## difference
-    max_value <- max(f1_length, f2_length)
+    ## C Wrapper function
+    ## Returns a list of two objects: the nfd_value (scalar)
+    ## and the absolute differences between the two distributions
+    ## (vector)
     tmp <- .C("nfd",
               f1=f1,
               f2=f2,
               f1_length=f1_length,
               f2_length=f2_length,
-              freqDiff=integer(max_value),
-              nfd_value=as.double(0)
-              )
+              freqDiff=integer(max(f1_length, f2_length)),
+              nfd_value=as.double(0))
     return (list(nfd_value=tmp$nfd_value, freqDiff=tmp$freqDiff))
 }
 
@@ -45,7 +41,7 @@ setClass("nfd",
              freqDiff=NA_real_
              ))
 
-## initialization methods
+## initialization method
 setMethod("initialize", "nfd", function(.Object, ..., freqDistA, freqDistB) {
               .Object@freqDistA <- freqDistA
               .Object@freqDistB <- freqDistB
@@ -53,7 +49,6 @@ setMethod("initialize", "nfd", function(.Object, ..., freqDistA, freqDistB) {
               .Object@freqDistB.NTypes <- length(.Object@freqDistB)
               .Object@freqDistA.NTokens <- sum(.Object@freqDistA)
               .Object@freqDistB.NTokens <- sum(.Object@freqDistB)
-              
               simulation <- nfdSim(.Object@freqDistA,
                                    .Object@freqDistB,
                                    .Object@freqDistA.NTypes,
@@ -125,5 +120,16 @@ setMethod("summary", "nfd", function(object, ...) {
               cat("  NFD Value             :", object@nfd_value, "\n")
           })
 
-NFD <- function(f1, f2)
-    new("nfd", freqDistA=f1, freqDistB=f2)
+NFD <- function(freqDistA, freqDistB) {
+    ## freqDist(A|B) can be either a frequency distribution vector
+    ## or a text or a vector of chars.
+    if (length(freqDistA) == 1)
+        if (is.numeric(freqDistA))
+            stop("You need to supply a multi-element vector")
+        else if (is.character(freqDistA))
+            freqDistA <- freq.dist(freqDistA)
+    
+    if (length(freqDistA) == 1 || length(freqDistB) == 1 )
+        stop("You need multi")
+    new("nfd", freqDistA=freqDistA, freqDistB=freqDistB)
+}

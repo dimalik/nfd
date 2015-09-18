@@ -1,2 +1,3 @@
 useDynLib(nfd)
-export(nfd, get.distribution.mode, split.string, create.frequency.distribution, get.samples, nfd.simulation)
+import(ggplot2, gridExtra)
+export(NFD, get.distribution.mode, split.string, freq.dist, get.samples, nfd.simulation)
