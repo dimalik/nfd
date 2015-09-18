@@ -8,7 +8,7 @@
 ## objects or an unsplit string
 ## 2) get.distribution.mode finds the mode of the provided distribution
 ## 3) split.string essentially strsplit with some checks
-## 4) create.frequency.distribution takes a string (either a multielement vector or a unitary one)
+## 4) freq.dist takes a string (either a multielement vector or a unitary one)
 ## and returns the frequency distribution (either as a two column df or a vector)
 ## 5) get.samples used in simulations to provide either a random range or a sequence
 
@@ -30,7 +30,7 @@ split.string <- function(string) {
         stop("Please provide a character string (e.g. \"this is a string\")")
 }
 
-create.frequency.distribution <- function(string, df=F) {
+freq.dist <- function(string, df=F) {
     if (!is.character(string))
         stop("Argument should be a character object")
     if (!is.split(string)) s <- split.string(string) else s <- string

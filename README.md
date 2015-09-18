@@ -20,8 +20,18 @@ install.packages("path/to/zip", repos = NULL, type = "source")
 In order to get the NFD value between two discrete distributions you simply call:
 
 ```R
+library(nfd)
+
+## first create two mini-corpora
 corpusA <- "this is a test sentence"
 corpusB <- "this is another test sentence"
 
-nfd(corpusA, corpusB)
+## then find their frequency distributions
+corpusA.fd <- create.frequency.distribution(corpusA)
+corpusB.fd <- create.frequency.distribution(corpusB)
+
+## find their nfd value
+nfd(corpusA.fd, corpusB.fd)
+## >
 ```
+For more information on the derivation of the measure you can consult [Bentz et al. (2015)](http://bit.ly/1KtlXzu). For more on how to perform different kinds of simulations either check the wiki page or evaluate `?nfd`
