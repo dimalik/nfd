@@ -113,24 +113,36 @@ given two numerical vectors returns a numeric vector of length 1 (ie. scalar).")
             })
 
 setMethod("summary", "text.size.simulation", function(object, ...) {
+              ## find boundaries
+              if (length(object@corpusA) >= 50) maxA <- 50 else maxA <- length(object@corpusA)
+              if (length(object@corpusB) >= 50) maxB <- 50 else maxB <- length(object@corpusB)
+              corpusA.trunc <- paste(object@corpusA[1:maxA], collapse = " ")
+              if (maxA == 50)
+                  corpusA.trunc <- paste(corpusA.trunc, "...", collapse = " ")
+              corpusB.trunc <- paste(object@corpusB[1:maxB], collapse = " ")
+              if (maxB == 50)
+                  corpusB.trunc <- paste(corpusB.trunc, "...", collapse = " ")
+              ## trim down the sequence if need be
+              if (length(object@max.size) > 10)
+                  max.size.show <- paste(paste(object@max.size[1:4], collapse = " "),
+                                         "...",
+                                         paste(tail(object@max.size, n = 4), collapse = " "),
+                                         collapse = " ")
+              else max.size.show <- paste(object@max.size, collapse = " ")
+              
               cat("Distribution difference by text size\n")
               cat("------------------------------------\n")
               cat("  Simulation parameters\n")
-              cat("    Corpus A                    :", object@corpusA, "\n")
-              cat("    Corpus B                    :", object@corpusB, "\n")
+              cat("    Corpus A                    :", corpusA.trunc, "\n")
+              cat("    Corpus B                    :", corpusB.trunc, "\n")
               cat("    Difference function         :", object@fun_name, "\n")
-              cat("    Using random samples        :", object@random.sampling,
-                  "\n")
-              cat("    Max text size               :", object@max.size, "\n")
+              cat("    Using random samples        :", object@random.sampling, "\n")
+              cat("    Max text size               :", max.size.show, "\n")
               cat("  Results\n")
-              cat("    Mean of difference values   :", mean(object@diffvals),
-                  "\n")
-              cat("    Median of difference values :", mean(object@diffvals),
-                  "\n")
-              cat("    Range of difference value   :", range(object@diffvals),
-                  "\n")
-              cat("    SD of difference values     :", sd(object@diffvals),
-                  "\n")
+              cat("    Mean of difference values   :", mean(object@diffvals), "\n")
+              cat("    Median of difference values :", mean(object@diffvals), "\n")
+              cat("    Range of difference value   :", range(object@diffvals), "\n")
+              cat("    SD of difference values     :", sd(object@diffvals), "\n")
           })
 
 TSsim <- function(
