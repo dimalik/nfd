@@ -1,4 +1,4 @@
-useDynLib(cnfd)
+useDynLib(nfd)
 importFrom("graphics", plot)
 import(ggplot2, gridExtra)
 exportClasses(nfd)
