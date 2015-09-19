@@ -28,8 +28,7 @@ setClass("nfd",
              freqDistA.NTokens="numeric",
              freqDistB.NTokens="numeric",
              nfd_value="numeric",
-             freqDiff="numeric"
-             ),
+             freqDiff="numeric"),
          prototype(
              freqDistA=NA_real_,
              freqDistB=NA_real_,
@@ -38,8 +37,7 @@ setClass("nfd",
              freqDistA.NTokens=NA_real_,
              freqDistB.NTokens=NA_real_,
              nfd_value=NA_real_,
-             freqDiff=NA_real_
-             ))
+             freqDiff=NA_real_))
 
 ## initialization method
 setMethod("initialize", "nfd", function(.Object, ..., freqDistA, freqDistB) {

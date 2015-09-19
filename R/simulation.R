@@ -1,18 +1,16 @@
-## runs simulations on the effect of text size on NFD
+## effect of text size on NFD
 ## see analysis 3 in Bentz et al.
+## author: dimitrios alikaniotis <da352@cam.ac.uk>
 
 simulation <- function(corpusA, corpusB, fun, max.size,
                        random.sampling, smaller.corpus.size, verbosity) {
-    ## corpus(A|B) should either be a character string
-    ## (e.g. "this is a test sentence") or a
-    ## character vector (e.g. c("this", "is", "a", "test", "sentence"))
+    ## corpus(A|B) should either be a character vector
     ## max.size should either be a monotonically increasing vector the maximum
     ## value of which is less than the size of the smaller corpus (otherwise
     ## it is trimmed to the length of the smaller corpus) or a scalar which
     ## assumes a sequence 1:max.size. If max.size == 1 then it returns
     ## NFD(fd(corpusA), fd(corpusB))
 
-    ## preallocate vectors
     nfd.vec <- double(length(max.size))
     for (i in max.size) {
         nfd.vec[i] <- fun(freq.dist(corpusA[get.samples(i,
@@ -26,6 +24,7 @@ simulation <- function(corpusA, corpusB, fun, max.size,
     return (nfd.vec)
 }
 
+## main class specification
 setClass("text.size.simulation",
          representation(
              corpusA="character",
@@ -34,19 +33,18 @@ setClass("text.size.simulation",
              fun_name="character",
              max.size="numeric",
              random.sampling="logical",
-             diffvals="numeric")
-         )
+             diffvals="numeric"))
 
 setMethod("initialize", "text.size.simulation", function(
     .Object,
     ...,
-    corpusA=NULL,
-    corpusB=NULL,
-    fun=NFD,
-    fun_name=NA_character_,
-    max.size=NULL,
-    random.sampling=TRUE,
-    verbosity=2) {
+    corpusA,
+    corpusB,
+    fun,
+    fun_name,
+    max.size,
+    random.sampling,
+    verbosity) {
               if (length(corpusA) == 1) cA <- split.string(corpusA) else cA <- corpusA
               if (length(corpusB) == 1) cB <- split.string(corpusB) else cB <- corpusB
               corpusAlength <- length(cA)
