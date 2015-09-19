@@ -1,39 +1,7 @@
 ## runs simulations on the effect of text size on NFD
 ## see analysis 3 in Bentz et al.
 
-## setClass("nfd.simulation",
-##          representation(
-##              corpusA="character",
-##              corpusB="character",
-##              max.size="integer",
-##              random.sampling="logical",
-##              verbosity="integer"),
-##          prototype(
-##              max.size=NULL,
-##              random.sampling=TRUE,
-##              verbosity=2)
-##          )
-
-## nfd.simulation <- function(corpusA, corpusB, max.size, random.sampling, verbosity)
-##     new("nfd.simulation",
-##         corpusA=corpusA,
-##         corpusB=corpusB,
-##         max.size=max.size,
-##         random.sampling=random.sampling,
-##         verbosity=verbosity)
-
-
-## setMethod(f = "runSimulation", signature = "nfd.simulation", definition = )
-## setMethod(f = "plot", signature = "nfd.simulation", definition = )
-## setMethod(f = "print", signature = "nfd.simulation", definition = )
-## setMethod(f = "show", signature = "nfd.simulation", definition = )
-## setMethod(f = "[", signature = "nfd.simulation", definition = )
-## setMethod(f = "initialize", signature = "nfd.simulation", definition = )
-
-
-nfd.simulation <- function(corpusA, corpusB, size=NULL, random=FALSE) UseMethod("nfd.simulation")
-
-nfd.simulation.default <- function(corpusA, corpusB, max.size=NULL, random.sampling=FALSE, verbosity=2) {
+simulation <- function(corpusA, corpusB, fun, max.size, random.sampling, verbosity) {
     ## corpus(A|B) should either be a character string (e.g. "this is a test sentence") or a
     ## character vector (e.g. c("this", "is", "a", "test", "sentence"))
     ## if size == NULL then it returns the nfd value between the entire corpora.
@@ -43,7 +11,7 @@ nfd.simulation.default <- function(corpusA, corpusB, max.size=NULL, random.sampl
     corpusBlength <- length(corpusB)
     if (is.null(max.size)) {
         if (verbosity > 0) warning("Size was not provided. The NFD value will be between the entire corpora.")
-        nfd.val <- nfd(freq.dist(corpusA), freq.dist(corpusB))
+        return (fun(freq.dist(corpusA), freq.dist(corpusB)))
     } else {
         if (max.size < 10) stop("Size value too low. Try a value larger than 10.")
         cA <- split.string(corpusA)
@@ -61,28 +29,77 @@ nfd.simulation.default <- function(corpusA, corpusB, max.size=NULL, random.sampl
         ## preallocate vectors
         nfd.vec <- double(max.size)
         for (i in 1:max.size) {
-            nfd.vec[i] <- nfd(freq.dist(cA[get.samples(i, random.sampling, max.tokens)]),
+            nfd.vec[i] <- fun(freq.dist(cA[get.samples(i, random.sampling, max.tokens)]),
                               freq.dist(cB[get.samples(i, random.sampling, max.tokens)]))
             if (verbosity > 1) cat("\r", "Done", i/max.size*100, "%    ")
         }
+        return (nfd.vec)
     }
-    
-    class(tmp) <- "NFDSimulation"
-    tmp
 }
 
-print.nfd.simulation <- function(x, ...) {
-    print(x$nfd_values)
-}
+setClass("text.size.simulation",
+         representation(
+             corpusA="character",
+             corpusB="character",
+             fun="function",
+             max.size="numeric",
+             random.sampling="logical",
+             verbosity="numeric",
+             diffvals="numeric")
+         )
 
-summary.nfd.simulation <- function(object, ...) {
-        ## size random mode
-    cat("NFD Simulation on:", x$cA, "and", x$cB,
-        "Random =", as.character(x$random),
-        "Size =", as.character(x$size),
-        "Mode =", as.character(Mode(x$vec)))
-}
+setMethod("initialize", "nfd", function(.Object, ..., corpusA, corpusB, fun=NFD, max.size=NULL, random.sampling=TRUE, verbosity=2) {
+              ## test difference function by asserting that providing two numerical
+              ## vectors yields a scalar
+              tmpDistA <- 10:1
+              tmpDistB <- rep(5, 10)
+              ans <- fun(tmpDistA, tmpDistB)
+              if (!length(ans) == 1 || !is.numeric(ans))
+                  stop("You need to provide a function that given two numerical vectors returns a numeric vector of length 1 (ie. scalar).")
+              ## end testing
+              .Object@corpusA <- corpusA
+              .Object@corpusB <- corpusB
+              .Object@fun <- fun
+              .Object@max.size <- max.size
+              .Object@random.sampling <- random.sampling
+              .Object@verbosity <- verbosity
+              .Object@diffvals <- simulation(.Object@corpusA,
+                                             .Object@corpusB,
+                                             .Object@fun,
+                                             .Object@max.size,
+                                             .Object@random.sampling,
+                                             .Object@verbosity)
+              .Object
+          })
 
-print.summary.nfd.simulation <- function(x, ...) {}
+setMethod("print", "text.size.simulation", function(x, ...)
+    print("Distribution difference by text size object"))
+setMethod("show", "text.size.simulation", function(object)
+    print(object@diffvals))
+setMethod("plot", "text.size.simulation", function(x, y, ...) {
+              plot(1:10)
+          })
 
-plot.nfd.simulation <- function(x, y, ...) {}
+setMethod("summary", "text.size.simulation", function(object, ...) {
+              cat("Distribution difference by text size\n")
+              cat("  Simulation parameters\n")
+              cat("    Corpus A                    :", object@corpusA, "\n")
+              cat("    Corpus B                    :", object@corpusB, "\n")
+              cat("    Difference function         :", object@fun, "\n")
+              cat("    Using random samples        :", object@random.samping, "\n")
+              cat("    Max text size               :", object@max.size, "\n")
+              cat("  Results\n")
+              cat("    Mean of difference values   :", mean(object@diffvals))
+              cat("    Median of difference values :", mean(object@diffvals))
+              cat("    Range of difference value   :", range(object@diffvals))
+              cat("    SD of difference values     :", sd(object@diffvals))
+          })
+
+TSsim <- function(corpusA, corpusB, fun=NFD, max.size=NA_real_, random.sampling=FALSE, verbosity=2)
+    new("text.size.simulation",
+        corpusA=corpusA,
+        corpusB=corpusB,
+        fun=fun,
+        max.size=max.size,
+        random.sampling=random.sampling,
+        verbosity=verbosity)
