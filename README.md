@@ -1,5 +1,6 @@
 # Normalized Frequency Difference Estimator
-Supporting package for [Bentz et al.](http://bit.ly/1KtlXzu)
+
+Supporting package for the Normalized Frequency Difference metric as described in [Bentz et al.](http://bit.ly/1KtlXzu).
 
 # Installation notes
 
@@ -43,7 +44,7 @@ plot(n)    # a ggplot such as the ones in pg. 11
 
 ## Demo dataset
 
-The package also includes as a demo corpus the english and italian translations of the UDHR on which you can either find the NFD value or run a text size simulation.
+The package also includes as a demo corpus the english and italian translations of the UDHR on which you can either find the `NFD` value or run a text size simulation.
 
 ```R
 data(udhr.demo)
@@ -53,13 +54,13 @@ nfd.score <- NFD(udhr.demo$english, udhr.demo$italian)
 
 ## Effect of text size simulations
 
-The `nfd` package also provided another class that helps you run simulations to find the effect of text size on the NFD (or any similar measure).
+The `nfd` package also provided another class that helps you run simulations to find the effect of text size on the `NFD` (or any similar measure).
 
 ```R
 text.size.sim <- TSsim(udhr.demo$english, udhr.demo$italian, max.size = 1000, random.sampling = TRUE)
 ```
 
-- `max.size` controls the text size. It implicitly creates a sequence (i.e. 2:max.size) which at each step takes that big a chunk from each corpus. This assumes that `max.size < min(length(corpus1), length(corpus2))`. If this does not hold `max.size` is trimmed to be smaller than the smaller corpus. For larger corpora it is advisable to provide a custom sampling sequence (see below).
+- `max.size` controls the text size. It implicitly creates a sequence (i.e. `2:max.size`) which at each step takes that big a chunk from each corpus. This assumes that `max.size < min(length(corpus1), length(corpus2))`. If this does not hold `max.size` is trimmed to be smaller than the smaller corpus. For larger corpora it is advisable to provide a custom sampling sequence (see below).
 - `random.sampling` controls whether the samples taken from the corpora will be random or from the beginning.
 
 For more details see Analysis 3 in the paper.
@@ -67,8 +68,8 @@ For more details see Analysis 3 in the paper.
 ## Tips
 
 - If you are going to run a text size simulation on larger corpora (> 100000 tokens) consider either setting the `random.sampling = FALSE` or provide a more sparse sequence in `max.size` (for an example see below)
-- Both `NFD` and `TSsim` are S4 objects the contents of which can be accessed using the `@` symbol. For example, in order to get the nfd_value from an NFD object you can type `n@nfd_value`. Both classes provide a getValue() method which returns the nfd_value and the vector of nfd values, respectively.
-- The TSsim class lets you specify the frequency difference function (through `fun = `). While the default is NFD you can use any function that given two vectors of numbers returns a scalar.
+- Both `NFD` and `TSsim` are `S4` objects the contents of which can be accessed using the `@` symbol. For example, in order to get the `nfd_value` from an `NFD` object you can type `n@nfd_value`. Both classes provide a getValue() method which returns the `nfd_value` and the vector of nfd values, respectively.
+- The `TSsim` class lets you specify the frequency difference function (through `fun = `). While the default is NFD you can use any function that given two vectors of numbers returns a scalar.
 
 ### Example of `max.size` sequence
 
