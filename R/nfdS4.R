@@ -7,7 +7,7 @@ nfdSim <- function(f1, f2, f1_length, f2_length) {
     ## Returns a list of two objects: the nfd_value (scalar)
     ## and the absolute differences between the two distributions
     ## (vector)
-    tmp <- .C("cnfd",
+    tmp <- .C("nfd",
               f1=as.integer(f1),
               f2=as.integer(f2),
               f1_length=as.integer(f1_length),
