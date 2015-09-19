@@ -121,16 +121,8 @@ setMethod("summary", signature="nfd", function(object, ...) {
           })
 
 NFD <- function(freqDistA, freqDistB) {
-    ## freqDist(A|B) can be either a frequency distribution vector
-    ## or a text or a vector of chars.
-    ## if (length(freqDistA) == 1)
-    ##     if (is.numeric(freqDistA))
-    ##         stop("You need to supply a multi-element vector")
-    ##     else if (is.character(freqDistA))
-    ##         freqDistA <- freq.dist(freqDistA)
-    
-    ## if (length(freqDistA) == 1 || length(freqDistB) == 1 )
-    ##     stop("You need multi")
+    if (is.character(freqDistA)) freqDistA <- freq.dist(freqDistA)
+    if (is.character(freqDistB)) freqDistB <- freq.dist(freqDistB)
     new("nfd", freqDistA=freqDistA, freqDistB=freqDistB)
 }
 
