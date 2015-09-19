@@ -11,8 +11,7 @@ nfdSim <- function(f1, f2, f1_length, f2_length) {
               f1=as.integer(f1),
               f2=as.integer(f2),
               f1_length=as.integer(f1_length),
-              f2_length=as.integer(f2_length)
-             ,
+              f2_length=as.integer(f2_length),
               freqDiff=integer(max(f1_length, f2_length)),
               nfd_value=as.double(0))
     return (list(nfd_value=tmp$nfd_value, freqDiff=tmp$freqDiff))
@@ -110,7 +109,7 @@ setMethod("plot", "nfd", function(x, y, ..., label1='A', label2='B') {
                                       )  
           })
 
-setMethod("show", "nfd", function(object) {print(object@nfd_value)})
+setMethod("show", "nfd", function(object) {cat(object@nfd_value, "\n")})
 
 setMethod("summary", signature="nfd", function(object, ...) {
               cat("Normalized Frequency Difference\n")
@@ -133,4 +132,11 @@ NFD <- function(freqDistA, freqDistB) {
     ## if (length(freqDistA) == 1 || length(freqDistB) == 1 )
     ##     stop("You need multi")
     new("nfd", freqDistA=freqDistA, freqDistB=freqDistB)
+}
+
+getNFD <- function(freqDistA, freqDistB) {
+    ## wrapper function which returns directly the nfd value
+    ## to be used with simulation
+    n <- NFD(freqDistA, freqDistB)
+    return (n@nfd_value)
 }

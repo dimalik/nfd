@@ -1,6 +1,6 @@
 useDynLib(nfd)
 importFrom("graphics", plot)
 import(ggplot2, gridExtra)
-exportClasses(nfd)
+exportClasses(nfd, text.size.simulation)
 exportMethods(plot, show, summary)
-export(NFD)
+export(NFD, TSsim, getNFD)
