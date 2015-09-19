@@ -5,5 +5,6 @@ Title: Normalized Frequency Difference Estimator
 Author: Dimitrios Alikaniotis <da352@cam.ac.uk>
 Maintainer: Dimitrios Alikaniotis <da352@cam.ac.uk>
 Depends: R (>= 2.14.1)
+Imports: ggplot2, gridExtra
 Description: NFD estimator as described in Bentz et al.
 License: BSD

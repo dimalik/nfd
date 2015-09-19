@@ -7,11 +7,12 @@ nfdSim <- function(f1, f2, f1_length, f2_length) {
     ## Returns a list of two objects: the nfd_value (scalar)
     ## and the absolute differences between the two distributions
     ## (vector)
-    tmp <- .C("nfd",
-              f1=f1,
-              f2=f2,
-              f1_length=f1_length,
-              f2_length=f2_length,
+    tmp <- .C("cnfd",
+              f1=as.integer(f1),
+              f2=as.integer(f2),
+              f1_length=as.integer(f1_length),
+              f2_length=as.integer(f2_length)
+             ,
               freqDiff=integer(max(f1_length, f2_length)),
               nfd_value=as.double(0))
     return (list(nfd_value=tmp$nfd_value, freqDiff=tmp$freqDiff))
@@ -59,9 +60,9 @@ setMethod("initialize", "nfd", function(.Object, ..., freqDistA, freqDistB) {
           })
 
 ## redefinition of print
-setMethod("print", "nfd", function(x, ...) {
-              cat("The NFD value is: ", x@nfd_value, "\n")
-          })
+#setMethod(f = "print", signature = signature(x = "nfd"), function(x, ...) {
+#              cat("The NFD value is: ", x@nfd_value, "\n")
+#          })
 
 ## redefinition of plot
 setMethod("plot", "nfd", function(x, y, ..., label1='A', label2='B') {
@@ -109,9 +110,9 @@ setMethod("plot", "nfd", function(x, y, ..., label1='A', label2='B') {
                                       )  
           })
 
-setMethod("show", "nfd", function(object) print(object@nfd_value))
+setMethod("show", "nfd", function(object) {print(object@nfd_value)})
 
-setMethod("summary", "nfd", function(object, ...) {
+setMethod("summary", signature="nfd", function(object, ...) {
               cat("Normalized Frequency Difference\n")
               cat("  FreqDistA.NTypes      :", object@freqDistA.NTypes, "\n")
               cat("  FreqDistB.NTypes      :", object@freqDistB.NTypes, "\n")
@@ -123,13 +124,13 @@ setMethod("summary", "nfd", function(object, ...) {
 NFD <- function(freqDistA, freqDistB) {
     ## freqDist(A|B) can be either a frequency distribution vector
     ## or a text or a vector of chars.
-    if (length(freqDistA) == 1)
-        if (is.numeric(freqDistA))
-            stop("You need to supply a multi-element vector")
-        else if (is.character(freqDistA))
-            freqDistA <- freq.dist(freqDistA)
+    ## if (length(freqDistA) == 1)
+    ##     if (is.numeric(freqDistA))
+    ##         stop("You need to supply a multi-element vector")
+    ##     else if (is.character(freqDistA))
+    ##         freqDistA <- freq.dist(freqDistA)
     
-    if (length(freqDistA) == 1 || length(freqDistB) == 1 )
-        stop("You need multi")
+    ## if (length(freqDistA) == 1 || length(freqDistB) == 1 )
+    ##     stop("You need multi")
     new("nfd", freqDistA=freqDistA, freqDistB=freqDistB)
 }
