@@ -34,4 +34,19 @@ corpusB.fd <- create.frequency.distribution(corpusB)
 nfd(corpusA.fd, corpusB.fd)
 ## >
 ```
+
+## Demo dataset
+
+The package also includes as a demo corpus the english and italian translations of the UDHR on which you can either find the NFD value or run a text size simulation.
+
+```R
+data(udhr.demo)
+
+nfd.score <- NFD(udhr.demo$english, udhr.demo$italian)
+
+text.size.sim <- TSsim(udhr.demo$english, udhr.demo$italian, max.size = 1000, random.sampling = TRUE)
+```
+
+
+
 For more information on the derivation of the measure you can consult [Bentz et al. (2015)](http://bit.ly/1KtlXzu). For more on how to perform different kinds of simulations either check the wiki page or evaluate `?nfd`
