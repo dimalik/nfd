@@ -91,7 +91,7 @@ max.size <- 1e7
 
 wf <- function(k, t) 1 - ((k * t) / (k - t + 1)) 
 
-rng <- linspace(0, 1, max.size)
+rng <- seq(0, 1, length.out = max.size)
 
 probs <- wf(rng, .9)
 
