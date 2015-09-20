@@ -1,10 +1,14 @@
 Package: nfd
 Version: 0.1
-Date: 17-09-2015
+Date: 20-09-2015
 Title: Normalized Frequency Difference Estimator
-Author: Dimitrios Alikaniotis <da352@cam.ac.uk>
+Authors@R: c(person("Dimitrios Alikaniotis", "Developer", role = c("aut", "cre"), email = "da352@cam.ac.uk"),
+	   person("Christian Bentz", "Developer", role = "aut", email = "cb696@cam.ac.uk"))
+Atuhor: Dimitrios Alikaniotis [aut, cre],
+	Christian Bentz [aut]
 Maintainer: Dimitrios Alikaniotis <da352@cam.ac.uk>
-Depends: R (>= 2.14.1)
+Depends: R (>= 3.1.0), ggplot2, gridExtra
 Imports: ggplot2, gridExtra
-Description: NFD estimator as described in Bentz et al.
-License: BSD
+Description: Normalized Frequency Difference Estimator as described in Bentz et al. (2015)
+License: MIT
+URL: http://github.com/dimalik/nfd
