@@ -4,7 +4,7 @@ Date: 20-09-2015
 Title: Normalized Frequency Difference Estimator
 Authors@R: c(person("Dimitrios Alikaniotis", "Developer", role = c("aut", "cre"), email = "da352@cam.ac.uk"),
 	   person("Christian Bentz", "Developer", role = "aut", email = "cb696@cam.ac.uk"))
-Atuhor: Dimitrios Alikaniotis [aut, cre],
+Author: Dimitrios Alikaniotis [aut, cre],
 	Christian Bentz [aut]
 Maintainer: Dimitrios Alikaniotis <da352@cam.ac.uk>
 Depends: R (>= 3.1.0), ggplot2, gridExtra
