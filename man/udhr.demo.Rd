@@ -1,7 +1,7 @@
 \name{udhr.demo}
 \docType{data}
 \alias{udhr.demo}
-\title{Universal Declaration of Human Rights demo corpus}
+\title{Universal Declaration of Human Rights Demo Corpus}
 \description{
   This data set provides the English and Italian processed translations of the
   Universal Declaratation of Human Rights. The pre-processing involved
