@@ -102,4 +102,9 @@ my.max.size <- sort(sample(max.size, 5000, replace = FALSE, prob = probs))
 
 ```
 
+# Issues
+
+- The actual NFD function is written in C (found in src/) so make sure you have a compiler set up. In Windows you might want to check [RTools](https://cran.r-project.org/bin/windows/Rtools/).
+- On MacOS you should have command-line tools installed from Xcode (remember that on some systems you might need to agree with the new license agreement (for more check [here](http://stackoverflow.com/questions/26197347)) -thanks @[cainesap](https://github.com/cainesap)).
+
 For more information on the derivation of the measure you can consult [Bentz et al. (2015)](http://bit.ly/1KtlXzu). For more on how to perform different kinds of simulations either check the wiki page or evaluate `?nfd`
