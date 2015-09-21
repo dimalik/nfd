@@ -29,12 +29,11 @@ void nfd(int *v1, int *v2, int *v1s, int *v2s, int *vec, double *ans) {
       sum1 += v1[a];
       sum2 += v2[a];
     }
-    if (*v1s > *v2s) {
+    if (*v1s > *v2s)
       for (; a<*v1s; a++) {
         vec[a] = v1[a];
         sum1 += v1[a];
       }
-    }
   } else {
     for (a=0; a<*v1s; a++) {
       vec[a] = abs(v1[a] - v2[a]);
@@ -47,8 +46,6 @@ void nfd(int *v1, int *v2, int *v1s, int *v2s, int *vec, double *ans) {
     }
   }
   
-  for (a=0; a<t; a++) {
-    sumvec += vec[a];
-  }
+  for (a=0; a<t; a++) sumvec += vec[a];
   *ans = (double) sumvec / (sum1 + sum2);
 }
