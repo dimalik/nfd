@@ -15,10 +15,10 @@ simulation <- function(corpusA, corpusB, fun, max.size,
     for (i in max.size) {
         nfd.vec[i] <- fun(corpusA[get.samples(i,
                                               random.sampling,
-                                              smaller.corpus.size)]),
+                                              smaller.corpus.size)],
                           corpusB[get.samples(i,
                                               random.sampling,
-                                              smaller.corpus.size)]))
+                                              smaller.corpus.size)])
         if (verbosity > 1) cat("\r", "Done", i/length(max.size)*100, "%    ")
     }
     return (nfd.vec)
